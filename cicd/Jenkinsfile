@@ -1,0 +1,30 @@
+// This is a Declarative Jenkinsfile to be used in the homework
+// It should map very well to what you learned in class.
+// Implement the sections marked with "TBD:"
+def GUID = "snelson"
+
+pipeline {
+    // parameters {
+    //   string(name: 'GUID', defaultValue: 'snelson', description: 'Globally Unique ID')
+    // }
+    agent {
+        load 'agent/kubernetes.Jenkinsfile'
+    }
+    environment { 
+        load 'environment/Jenkinsfile'
+    }
+    stages {
+        load '01_dev/01_build/01_CloneSource.Jenkinsfile'
+        load '01_dev/01_build/02_BuildWar.Jenkinsfile'
+
+        load '01_dev/02_test/01_UnitTests.Jenkinsfile'
+        load '01_dev/02_test/02_SonarQube.Jenkinsfile'
+
+        load '01_dev/03_deploy/01_PublishWar.Jenkinsfile'
+        load '01_dev/03_deploy/02_TagImage.Jenkinsfile'
+        load '01_dev/03_deploy/03_DeployDev.Jenkinsfile'
+        load '01_dev/03_deploy/04_CopyToRegistry.Jenkinsfile'
+        load '01_dev/03_deploy/05_BlueGreen.Jenkinsfile'
+        load '01_dev/03_deploy/06_SwitchOver.Jenkinsfile'
+    }
+}
