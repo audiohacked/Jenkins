@@ -8,23 +8,23 @@ pipeline {
     //   string(name: 'GUID', defaultValue: 'snelson', description: 'Globally Unique ID')
     // }
     agent {
-        load 'agent/kubernetes.Jenkinsfile'
+        load 'agent/kubernetes.groovy'
     }
     environment { 
-        load 'environment/Jenkinsfile'
+        load 'environment/dev.groovy'
     }
     stages {
-        load '01_dev/01_build/01_CloneSource.Jenkinsfile'
-        load '01_dev/01_build/02_BuildWar.Jenkinsfile'
+        load '01_dev/01_build/01_CloneSource.groovy'
+        load '01_dev/01_build/02_BuildWar.groovy'
 
-        load '01_dev/02_test/01_UnitTests.Jenkinsfile'
-        load '01_dev/02_test/02_SonarQube.Jenkinsfile'
+        load '01_dev/02_test/01_UnitTests.groovy'
+        load '01_dev/02_test/02_SonarQube.groovy'
 
-        load '01_dev/03_deploy/01_PublishWar.Jenkinsfile'
-        load '01_dev/03_deploy/02_TagImage.Jenkinsfile'
-        load '01_dev/03_deploy/03_DeployDev.Jenkinsfile'
-        load '01_dev/03_deploy/04_CopyToRegistry.Jenkinsfile'
-        load '01_dev/03_deploy/05_BlueGreen.Jenkinsfile'
-        load '01_dev/03_deploy/06_SwitchOver.Jenkinsfile'
+        load '01_dev/03_deploy/01_PublishWar.groovy'
+        load '01_dev/03_deploy/02_TagImage.groovy'
+        load '01_dev/03_deploy/03_DeployDev.groovy'
+        load '01_dev/03_deploy/04_CopyToRegistry.groovy'
+        load '01_dev/03_deploy/05_BlueGreen.groovy'
+        load '01_dev/03_deploy/06_SwitchOver.groovy'
     }
 }
