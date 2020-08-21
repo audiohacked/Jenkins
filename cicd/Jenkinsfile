@@ -7,24 +7,26 @@ pipeline {
     // parameters {
     //   string(name: 'GUID', defaultValue: 'snelson', description: 'Globally Unique ID')
     // }
-    agent {
-        load 'agent/kubernetes.groovy'
-    }
-    environment { 
-        load 'environment/dev.groovy'
-    }
-    stages {
-        load '01_dev/01_build/01_CloneSource.groovy'
-        load '01_dev/01_build/02_BuildWar.groovy'
+    node () {
+        agent {
+            load 'agent/kubernetes.groovy'
+        }
+        environment { 
+            load 'environment/dev.groovy'
+        }
+        stages {
+            load '01_dev/01_build/01_CloneSource.groovy'
+            load '01_dev/01_build/02_BuildArtifact.groovy'
 
-        load '01_dev/02_test/01_UnitTests.groovy'
-        load '01_dev/02_test/02_SonarQube.groovy'
+            load '01_dev/02_test/01_UnitTests.groovy'
+            load '01_dev/02_test/02_SonarQube.groovy'
 
-        load '01_dev/03_deploy/01_PublishWar.groovy'
-        load '01_dev/03_deploy/02_TagImage.groovy'
-        load '01_dev/03_deploy/03_DeployDev.groovy'
-        load '01_dev/03_deploy/04_CopyToRegistry.groovy'
-        load '01_dev/03_deploy/05_BlueGreen.groovy'
-        load '01_dev/03_deploy/06_SwitchOver.groovy'
+            load '01_dev/03_deploy/01_PublishArtifact.groovy'
+            load '01_dev/03_deploy/02_BuildContainer.groovy'
+            load '01_dev/03_deploy/03_DeployContainer.groovy'
+            load '01_dev/03_deploy/04_PublishContainer.groovy'
+            load '01_dev/03_deploy/05_BlueGreen.groovy'
+            load '01_dev/03_deploy/06_SwitchOver.groovy'
+        }
     }
 }
